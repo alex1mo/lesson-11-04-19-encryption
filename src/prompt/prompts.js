@@ -33,25 +33,9 @@ export class Prompts {
         type: prev => prev !== Actions.DECRYPT && "number",
         name: "shift",
         min: 1,
-        max: 26,
+        max: 25,
         message: "Enter shift (from 1 to 25)"
       }
     ]);
   }
-
-  // static async decode(str, cb) {
-  //   return await prompts([
-  //     {
-  //       type: "select",
-  //       name: "text",
-  //       message: "Decode string",
-  //       choices: [
-  //         {
-  //           title: str,
-  //           value: "test"
-  //         }
-  //       ]
-  //     }
-  //   ]);
-  // }
 }

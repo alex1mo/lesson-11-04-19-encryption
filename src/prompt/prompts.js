@@ -1,46 +1,57 @@
-import prompts from 'prompts';
-import {Actions} from "../constants/actions.const";
+import prompts from "prompts";
+import { Actions } from "../constants/actions.const";
 
 export class Prompts {
   static async getValues() {
     return await prompts([
       {
-        type: 'select',
-        name: 'action',
-        message: 'Pick a action',
+        type: "select",
+        name: "action",
+        message: "Pick a action",
         choices: [
           {
-            title: 'Encode',
+            title: "Encode",
             value: Actions.ENCRYPT
           },
           {
-            title: 'Decode',
+            title: "Decode",
             value: Actions.DECRYPT
           }
         ]
       },
       {
-        type: 'text',
-        name: 'text',
-        message: (prev, obj) => {
-          if (obj.action === Actions.DECRYPT) {
-            return 'Enter the text you wish to decrypt.';
-          }
-          return 'Enter the text you wish to encrypt.'
-        }
-      },
-      {
-        type: (prev, obj) => {
-          if (obj.action === Actions.DECRYPT) {
+        type: prev => {
+          if (prev === Actions.DECRYPT) {
             return null;
           }
-          return 'number'
+          return "text";
         },
-        name: 'shift',
+        name: "text",
+        message: "Enter the text you wish to encrypt."
+      },
+      {
+        type: prev => prev !== Actions.DECRYPT && "number",
+        name: "shift",
         min: 1,
         max: 26,
-        message: 'Enter shift (from 1 to 26)',
+        message: "Enter shift (from 1 to 25)"
       }
     ]);
   }
+
+  // static async decode(str, cb) {
+  //   return await prompts([
+  //     {
+  //       type: "select",
+  //       name: "text",
+  //       message: "Decode string",
+  //       choices: [
+  //         {
+  //           title: str,
+  //           value: "test"
+  //         }
+  //       ]
+  //     }
+  //   ]);
+  // }
 }
